@@ -1,0 +1,22 @@
+# Ignore Visual Studio temporary files
+.vs/
+*.user
+*.suo
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore Rider IDE files
+.idea/
+
+# Ignore logs
+*.log
+
+# Ignore local database
+*.mdf
+*.ldf
+
+# Ignore OS files
+Thumbs.db
+.DS_Store
