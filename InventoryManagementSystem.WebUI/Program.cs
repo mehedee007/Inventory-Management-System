@@ -1,7 +1,22 @@
+using System;
+using InventoryManagementSystem.Application.Interfaces;
+using InventoryManagementSystem.Infrastructure.Data;
+using InventoryManagementSystem.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Register DbContext with SQL Server
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("conString")));
+
+//Register Services
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
