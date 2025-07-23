@@ -10,8 +10,9 @@ namespace InventoryManagementSystem.Infrastructure.Data
 {
     public class ApplicationDBContext : DbContext
     {
-        public ApplicationDBContext (DbContextOptions<ApplicationDBContext> dbContext) : base(dbContext) 
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> dbContext) : base(dbContext)
         { }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 }

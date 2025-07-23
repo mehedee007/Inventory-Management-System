@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Interfaces\ISupplierService.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InventoryManagementSystem.Domain\InventoryManagementSystem.Domain.csproj" />
   </ItemGroup>
 

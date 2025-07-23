@@ -2,6 +2,7 @@
 using InventoryManagementSystem.Domain.Entities;
 using InventoryManagementSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,10 +48,10 @@ namespace InventoryManagementSystem.Infrastructure.Services
             return product;
         }
 
-        public Task UpdateAsync(Product product)
+        public async Task UpdateAsync(Product product)
         {
             _context.Products.Update(product);
-           return  _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using InventoryManagementSystem.Application.Interfaces;
 using InventoryManagementSystem.Domain.Entities;
 using InventoryManagementSystem.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,30 +19,43 @@ namespace InventoryManagementSystem.Infrastructure.Services
             _context = context;
         }
 
-        public async Task AddSupplierAsync(Supplier supplier)
+        public async Task AddAsync(Supplier supplier)
         {
             _context.Suppliers.Add(supplier);
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteSupplierAsync(Supplier supplier)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var supplier = await _context.Suppliers.FindAsync(id);
+            if(supplier != null)
+            {
+                supplier.IsActive = false;
+                supplier.UpdatedOn = DateTime.UtcNow;
+                _context.Suppliers.Update(supplier);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public Task<IEnumerable<Supplier>> GetAllSupplierAsync()
+        public async Task<IEnumerable<Supplier>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var suppliers = await _context.Suppliers
+                    .Where(supplier => supplier.IsActive)
+                    .ToListAsync();
+            return suppliers;
         }
 
-        public Task<Supplier> GetSupplierByIdAsync(int id)
+        public async Task<Supplier> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var supplier = await _context.Suppliers.FindAsync(id);
+            return supplier;
         }
 
-        public Task UpdateSupplierAsync(Supplier supplier)
+        public async Task UpdateAsync(Supplier supplier)
         {
-            throw new NotImplementedException();
+            supplier.UpdatedOn = DateTime.UtcNow;
+            _context.Suppliers.Update(supplier);
+            await _context.SaveChangesAsync();
         }
     }
 }

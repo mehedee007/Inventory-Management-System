@@ -15,6 +15,9 @@ namespace InventoryManagementSystem.Domain.Entities
         public string? SupplierEmail { get; set; }
         public required string SupplierPhone { get; set; }
         public string? Address { get; set; }
+        public DateTime EnteredOn { get; set; } = DateTime.UtcNow;
+        public bool IsActive { get; set; } = true;
+        public DateTime UpdatedOn { get; set; }
 
     }
 }

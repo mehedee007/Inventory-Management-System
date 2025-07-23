@@ -9,10 +9,10 @@ namespace InventoryManagementSystem.Application.Interfaces
 {
     public interface ISupplierService
     {
-        Task<IEnumerable<Supplier>> GetAllSupplierAsync();
-        Task<Supplier> GetSupplierByIdAsync(int id);
-        Task AddSupplierAsync(Supplier supplier);
-        Task UpdateSupplierAsync(Supplier supplier);
-        Task DeleteSupplierAsync(Supplier supplier);
+        Task<IEnumerable<Supplier>> GetAllAsync();
+        Task<Supplier> GetByIdAsync(int id);
+        Task AddAsync(Supplier supplier);
+        Task UpdateAsync(Supplier supplier);
+        Task DeleteAsync(int id);
     }
 }
