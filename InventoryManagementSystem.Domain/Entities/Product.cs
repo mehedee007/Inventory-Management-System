@@ -14,6 +14,8 @@ namespace InventoryManagementSystem.Domain.Entities
         public required string ProductCode { get; set; }
         public required string ProductName { get; set; }
         public string? ProductDescription { get; set; }
+        public required string MeasureUnit { get; set; }
+        public decimal ROL { get; set; } //Reorder Level
         public DateTime EnteredOn { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;
         

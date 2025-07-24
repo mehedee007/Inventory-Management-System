@@ -8,19 +8,31 @@
 
 <form asp-action="Create" method="post">
     <div class="form-group">
-        <label asp-for="ProductCode" class="control-label"></label>
+        <label asp-for="ProductCode" class="control-label">Produdct Code</label>
         <input asp-for="ProductCode" class="form-control" />
         <span asp-validation-for="ProductCode" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="ProductName" class="control-label"></label>
+        <label asp-for="ProductName" class="control-label">Product Name</label>
         <input asp-for="ProductName" class="form-control" />
         <span asp-validation-for="ProductName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="ProductDescription" class="control-label"></label>
+        <label asp-for="ProductDescription" class="control-label">Product Description</label>
         <textarea asp-for="ProductDescription" class="form-control"></textarea>
     </div>
+    <div class="form-group">
+        <label asp-for="MeasureUnit" class="control-label">Measure Unit</label>
+        <input asp-for="MeasureUnit" class="form-control" />
+        <span asp-validation-for="MeasureUnit" class="text-danger">Please Write Measure Unit!</span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ROL" class="control-label">Reorder Level (ROL)</label>
+        <input asp-for="ROL" class="form-control" />
+        <span asp-validation-for="ROL" class="text-danger">Please Write Reorder Level (ROL)!</span>
+    </div>
+
+  
     <button type="submit" class="btn btn-primary">Save</button> |
     <a asp-action="Index">Back to List</a>
 </form>

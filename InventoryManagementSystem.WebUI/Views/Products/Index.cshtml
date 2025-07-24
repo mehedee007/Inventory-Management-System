@@ -16,6 +16,9 @@
             <th>Product Code</th>
             <th>Product Name</th>
             <th>Description</th>
+
+            <th>Measure Unit</th>
+            <th>ROL</th>
             <th></th>
         </tr>
     </thead>
@@ -26,6 +29,9 @@
                 <td>@item.ProductCode</td>
                 <td>@item.ProductName</td>
                 <td>@item.ProductDescription</td>
+
+                <td>@item.MeasureUnit</td>
+                <td>@item.ROL</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
                     <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
