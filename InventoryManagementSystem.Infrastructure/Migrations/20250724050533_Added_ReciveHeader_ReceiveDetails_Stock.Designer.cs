@@ -4,6 +4,7 @@ using InventoryManagementSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250724050533_Added_ReciveHeader_ReceiveDetails_Stock")]
+    partial class Added_ReciveHeader_ReceiveDetails_Stock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,40 +24,6 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("InventoryManagementSystem.Application.ViewModels.PendingItemVm", b =>
-                {
-                    b.Property<int>("OrderDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("OrderQty")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("ReceivedQty")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.ToTable((string)null);
-
-                    b.ToView(null, (string)null);
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.Application.ViewModels.PendingOrderVm", b =>
-                {
-                    b.Property<int>("OrderHeaderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OrderNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable((string)null);
-
-                    b.ToView(null, (string)null);
-                });
 
             modelBuilder.Entity("InventoryManagementSystem.Domain.Entities.OrderDetails", b =>
                 {
@@ -161,6 +130,9 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                     b.Property<int>("OrderDetailId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderDetailsOrderDetailId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Qty")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
@@ -170,7 +142,7 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("ReceiveDetailId");
 
-                    b.HasIndex("OrderDetailId");
+                    b.HasIndex("OrderDetailsOrderDetailId");
 
                     b.HasIndex("ReceiveHeaderId");
 
@@ -292,7 +264,7 @@ namespace InventoryManagementSystem.Infrastructure.Migrations
                 {
                     b.HasOne("InventoryManagementSystem.Domain.Entities.OrderDetails", "OrderDetails")
                         .WithMany()
-                        .HasForeignKey("OrderDetailId")
+                        .HasForeignKey("OrderDetailsOrderDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

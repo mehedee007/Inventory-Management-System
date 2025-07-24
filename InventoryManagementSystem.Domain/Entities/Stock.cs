@@ -9,22 +9,15 @@ using System.Threading.Tasks;
 
 namespace InventoryManagementSystem.Domain.Entities
 {
-    public class OrderDetails
+    public class Stock
     {
         [Key]
-        public int OrderDetailId { get; set; }
-        [Required]
-        public int OrderHeaderId { get; set; }
-        [Required]
+        public int StockId { get; set; }
         public int ProductId { get; set; }
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
-        public decimal Quantity { get; set; }
+        public decimal SIH { get; set; }
+        public DateTime UpdatedOn { get; set; }
 
         //Navigation Properties
-        [ValidateNever]
-        [ForeignKey("OrderHeaderId")]
-        public OrderHeader OrderHeader { get; set; }
         [ValidateNever]
         [ForeignKey("ProductId")]
 

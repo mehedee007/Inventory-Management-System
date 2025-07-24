@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Application.Interfaces;
+using InventoryManagementSystem.Application.ViewModels;
 using InventoryManagementSystem.Domain.Entities;
 using InventoryManagementSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -44,5 +45,40 @@ namespace InventoryManagementSystem.Infrastructure.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<PendingItemVm>> GetPendingItemsByOrderAsync(int orderHeaderId)
+        {
+            try
+            {
+                return await _context.PendingItemVm
+            .FromSqlInterpolated($"EXEC spGetPendingItemsByOrder @OrderHeaderId = {orderHeaderId}")
+            .ToListAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            
+        }
+
+        public async Task<IEnumerable<PendingOrderVm>> GetPendingOrdersBySupplierAsync(int supplierId)
+        {
+            try
+            {
+                var pendingOrders = await _context.PendingOrderVm
+                                .FromSqlInterpolated($"EXEC spGetPendingOrdersBySupplier @SupplierId = {supplierId}")
+                                .ToListAsync();
+                return pendingOrders;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+
+
+        }
+    
     }
 }

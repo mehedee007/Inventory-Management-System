@@ -1,0 +1,109 @@
+﻿@model InventoryManagementSystem.Application.ViewModels.ReceiveHeaderVM
+@{
+    ViewData["Title"] = "Recive Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Receive Products</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="SupplierId" class="control-label">Supplier</label>
+        <select asp-for="SupplierId" asp-items="ViewBag.Suppliers" class="form-control" onchange="loadOrdersBySupplier(this.value)">
+            <option value="">-- Select Supplier --</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="OrderHeaderId" class="control-label">Pending Orders</label>
+        <select id="OrderHeaderId" name="OrderHeaderId" class="form-control" onchange="loadPendingItemsByOrder(this.value)">
+            <option value="">-- Select Order --</option>
+        </select>
+
+    </div>
+
+    <hr />
+
+    <h4>Pending Items</h4>
+    <table class="table" id="receiveItemsTable">
+        <thead>
+            <tr>
+                <th class="hidden">OrderDetailsId</th>
+                <th>Product</th>
+                <th>Order Qty</th>
+                <th>Already Recieved Qty</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Receive Product</button>
+</form>
+
+@section Scripts {
+    <script>
+        function loadOrdersBySupplier(supplierId) {
+             if (!supplierId) {
+                 $('#OrderHeaderId').html('<option value="">-- Select Order --</option>');
+                 return;
+             }
+
+             $.ajax({
+                 url: '/Receives/GetPendingOrdersBySupplier',
+                 type: 'GET',
+                 data: { supplierId: supplierId },
+                 success: function (data) {
+                     console.log(data);
+                     let options = '<option value="">-- Select Order --</option>';
+                     data.forEach(function (order) {
+                         options += `<option value="${order.OrderHeaderId}">${order.OrderNo}</option>`;
+                     });
+                     $('#OrderHeaderId').html(options);
+                 },
+                 error: function () {
+                     alert('Failed to load pending orders.');
+                 }
+             });
+         }
+
+
+
+                function loadPendingItemsByOrder(orderHeaderId) {
+            console.log(orderHeaderId);
+            if (!orderHeaderId) return;
+
+            $.ajax({
+                url: '/Receives/GetPendingItemsByOrder',
+                method: 'GET',
+                data: { orderHeaderId: orderHeaderId },
+                success: function (data) {
+                    var tableBody = $('#receiveItemsTable tbody');
+                    tableBody.empty();
+                    console.log(data);
+                    data.forEach(function (item, index) {
+                        var row = `<tr>
+                            <td class='hidden'>
+                                <input type="hidden" name="ReceiveDetails[${index}].OrderDetailId" value="${item.OrderDetailId}" />
+                            </td>
+                            <td>${item.ProductName}</td>
+                            <td>${item.OrderQty}</td>
+                            <td>${item.ReceivedQty}</td>
+                            <td>
+                                <input type="number" name="ReceiveDetails[${index}].Qty" class="form-control" />
+                            </td>
+                        </tr>`;
+                        tableBody.append(row);
+                    });
+                },
+                error: function () {
+                    alert("Failed to load pending items.");
+                }
+            });
+        }
+
+    </script>
+}
