@@ -1,0 +1,35 @@
+CREATE DATABASE InventoryDB
+GO
+USE InventoryDB
+GO
+
+CREATE PROCEDURE spGetPendingOrdersBySupplier
+    @SupplierId INT
+AS
+BEGIN
+    SELECT DISTINCT oh.OrderHeaderId, oh.OrderNo
+    FROM InventoryDB..OrderHeader oh
+    INNER JOIN InventoryDB..OrderDetails od ON oh.OrderHeaderId = od.OrderHeaderId
+    LEFT JOIN InventoryDB..ReceiveDetails rd ON od.OrderDetailId = rd.OrderDetailId
+    WHERE oh.SupplierId = @SupplierId
+    GROUP BY oh.OrderHeaderId, oh.OrderNo, od.OrderDetailId, od.Quantity
+    HAVING ISNULL(SUM(rd.Qty), 0) < od.Quantity
+END
+USE InventoryDB
+GO
+
+CREATE PROCEDURE spGetPendingItemsByOrder
+    @OrderHeaderId INT
+AS
+BEGIN
+    SELECT 
+        od.OrderDetailId,
+        p.ProductName,
+        od.Quantity AS OrderQty,
+        ISNULL(SUM(rd.Qty), 0) AS ReceivedQty
+    FROM OrderDetails od
+    INNER JOIN Products p ON od.ProductId = p.ProductId
+    LEFT JOIN ReceiveDetails rd ON od.OrderDetailId = rd.OrderDetailId
+    WHERE od.OrderHeaderId = @OrderHeaderId
+    GROUP BY od.OrderDetailId, p.ProductName, od.Quantity
+END
